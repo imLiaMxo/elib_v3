@@ -9,7 +9,9 @@
 Elib.Database = Elib.Database or {}
 Elib.Database.Registered = Elib.Database.Registered or {}
 
-require("mysqloo")
+if util.IsBinaryModuleInstalled("mysqloo") then
+    pcall(require, "mysqloo")
+end
 
 local DATABASE = {}
 DATABASE.__index = DATABASE

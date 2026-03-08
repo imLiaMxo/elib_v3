@@ -69,7 +69,6 @@ function PANEL:Init()
     end
 
     self.Reset.Paint = function(pnl, w, h)
-
         if pnl:IsDown() then
             self.Reset.Color = Elib.Colors.Negative
         elseif pnl:IsHovered() then
@@ -106,7 +105,6 @@ function PANEL:Init()
     end
 
     self.Save.Paint = function(pnl, w, h)
-
         if pnl:IsDown() then
             self.Save.Color = Elib.Colors.Positive
         elseif pnl:IsHovered() then
@@ -127,7 +125,6 @@ function PANEL:Init()
     end
 
     self.Back.Paint = function(pnl, w, h)
-
         if pnl:IsDown() then
             self.Back.Color = Elib.Colors.Primary
         elseif pnl:IsHovered() then
@@ -151,9 +148,7 @@ function PANEL:Init()
         self.Reset:SetSize(btnSize, btnSize)
         self.Save:SetSize(btnSize, btnSize)
         self.Back:SetSize(btnSize, btnSize)
-        
     end
-    
 end
 
 function PANEL:SetAddon(addon)
@@ -162,9 +157,10 @@ function PANEL:SetAddon(addon)
 end
 
 function PANEL:GenerateCategories()
-    local toDelete
     if self.categoryNav and self.categoryNav.Items then
-        toDelete = table.Copy(self.categoryNav.Items)
+        for k, v in ipairs(self.categoryNav.Items) do
+            v:Remove()
+        end
     end
 
     local function SwichCat(item)
@@ -173,8 +169,8 @@ function PANEL:GenerateCategories()
     end
 
     if Elib.Config.Addons[self.addon] == nil or Elib.Config.Addons[self.addon][self.realm] == nil then
-        self.categoryNav:RemoveItem(1)
         self.categoryNav:AddItem(1, "No Data", function() end, 1)
+        self.categoryNav:SelectItem(1)
         self.scroll:Clear()
         return
     end
@@ -196,13 +192,9 @@ function PANEL:GenerateCategories()
     end
 
     self.categoryNav:SelectItem(1)
-    for k, v in ipairs(toDelete) do
-        v:Remove()
-    end
 end
 
 function PANEL:GeneratePage()
-
     self.scroll:Clear()
     self.panels = {}
 
